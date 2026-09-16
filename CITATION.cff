@@ -1,0 +1,117 @@
+cff-version: 1.2.0
+message: "本プレプリントを引用する場合は、以下を参照してください。 / If you cite this preprint, please use the following."
+type: article
+
+title: "No error was raised: twenty-six broken measurements from a cross-domain audit of free satellite data"
+
+abstract: >-
+  Published work on satellite applications is, with few exceptions, a collection
+  of successes. What free Earth observation cannot do, and where the attempt to
+  measure whether it can do it breaks down, is largely absent from the record.
+
+  Fifteen advertised industrial applications of satellite data were implemented
+  in full, fixed to a single region so that results are comparable, and run on
+  free, unauthenticated data only. Nine were then scored against reference
+  solutions that cannot be moved by the authors: awarded national-government
+  contracts recovered from thirteen fiscal years of Japanese procurement open
+  data (312,584 records, 332 of them satellite analysis work). The remaining six
+  were not measured because the state does not buy them — four industries
+  returned zero analysis contracts in 312,584 records.
+
+  Seven technical walls and four institutional walls are reported, and only one
+  of the seven is bought off with money. Two are properties of the measuring
+  instrument rather than of the method, including a thermal sensor whose
+  overpass time has been drifting since orbit maintenance ended, bending a
+  night-time temperature trend from +0.083 to +0.812 K/yr. One is not a
+  technical wall at all: a satellite quantity can be measured correctly and add
+  nothing, because the target statistic is already explained by population.
+
+  The core of the paper is a ledger of twenty-six occasions on which the
+  measurement itself was broken. Every one returned a plausible value without
+  raising an error, and ten returned a good result. The asymmetry that bad
+  results are doubted while good ones are not is identified as the central
+  hazard of self-directed measurement, and the protocol freezes a prediction, a
+  decision criterion and a counter-hypothesis before each run so that a
+  confirmed prediction is also audited.
+
+  衛星データ用途15業種を福岡に固定して全部実装し、国の落札実績を参照解に9業種を採点した。
+  技術の壁7種・制度の壁4種、そして測り方が壊れていた26件の台帳。英語本文と日本語完全版。
+
+authors:
+  - family-names: "Ohkubo"
+    given-names: "Boss"
+    affiliation: "Allfesta Corp."
+    orcid: "https://orcid.org/0009-0007-8300-0039"
+
+version: "1.0.0"
+date-released: "2026-09-16"
+license: CC-BY-4.0
+
+url: "https://github.com/allfestaboss/eisei-reach-paper"
+repository-code: "https://github.com/allfestaboss/eisei-reach-paper"
+
+keywords:
+  - negative results
+  - Earth observation
+  - satellite remote sensing
+  - measurement failure
+  - reproducibility
+  - public procurement
+  - research methodology
+  - open data
+  - 否定的結果
+  - リモートセンシング
+
+references:
+  - type: software
+    title: "eisei-bench: 無料の衛星データはどこで詰まるか"
+    authors:
+      - family-names: "Ohkubo"
+        given-names: "Boss"
+    notes: "本稿が記述する実装・測定記録・26件の台帳。DOI は公開時に付与。"
+  - type: article
+    title: "Who checks the answer key? Ground-truth defects in eight professional-practice benchmarks"
+    authors:
+      - family-names: "Ohkubo"
+        given-names: "Boss"
+    year: 2026
+    doi: "10.5281/zenodo.21862231"
+    notes: "方法論上の兄弟。参照解の検証不能性を扱う。"
+  - type: article
+    title: "Cloud Mask Intercomparison eXercise (CMIX): An evaluation of cloud masking algorithms for Landsat 8 and Sentinel-2"
+    authors:
+      - family-names: "Skakun"
+        given-names: "Sergii"
+    year: 2022
+    journal: "Remote Sensing of Environment"
+    volume: 274
+    number: "112990"
+    doi: "10.1016/j.rse.2022.112990"
+    notes: "課題を固定してアルゴリズムを変える相互比較。本稿は予算を固定して課題を変える。"
+  - type: article
+    title: "High-resolution global maps of 21st-century forest cover change"
+    authors:
+      - family-names: "Hansen"
+        given-names: "M. C."
+    year: 2013
+    journal: "Science"
+    volume: 342
+    start: 850
+    end: 853
+    doi: "10.1126/science.1244693"
+  - type: article
+    title: "Passive remote sensing techniques for mapping water depth and bottom features"
+    authors:
+      - family-names: "Lyzenga"
+        given-names: "D. R."
+    year: 1978
+    journal: "Applied Optics"
+    volume: 17
+    issue: 3
+    start: 379
+    end: 383
+    doi: "10.1364/AO.17.000379"
+  - type: database
+    title: "調達ポータル 落札実績オープンデータ"
+    url: "https://www.p-portal.go.jp/pps-web-biz/UAB02/OAB0201"
+    notes: "参照解の出どころ。平成26年度〜令和8年度・312,584件。"

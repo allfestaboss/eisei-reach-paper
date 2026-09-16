@@ -1,0 +1,56 @@
+NOTICE — 本リポジトリの中身と条件 / What is here and under what terms
+=====================================================================
+
+`LICENSE` の **CC BY 4.0** は、本リポジトリの**文章（英語本文と日本語完全版）**
+および組み上げスクリプトに適用されます。出典を表示すれば、商用を含め自由に
+複製・改変・再配布できます。
+The Creative Commons Attribution 4.0 International License in `LICENSE` covers
+the prose of this preprint, in both its English and Japanese editions, and the
+build script.
+
+  推奨表記 / Suggested attribution:
+    Ohkubo, B. (2026). No error was raised: twenty-six broken measurements
+    from a cross-domain audit of free satellite data. Preprint. CC BY 4.0.
+
+
+1. ここに測定データは入っていません
+------------------------------------
+
+  本稿が記述している実装・凍結した予測・判定ファイル・測定結果105本・
+  26件の台帳の全文は、**別リポジトリ `eisei-bench`**（MIT ライセンス）にあります。
+  そちらには OpenStreetMap 由来のデータ（ODbL 1.0）と日本の政府統計が同梱されており、
+  MIT が及ばない部分があります。`eisei-bench/NOTICE` を参照してください。
+
+  The measurements this paper describes live in a separate repository,
+  `eisei-bench`, under the MIT License, with its own NOTICE covering bundled
+  OpenStreetMap data (ODbL 1.0) and Japanese government statistics.
+
+
+2. 引用した第三者の著作物
+--------------------------
+
+  本文中で引用した数値・図表のうち、他人の測定に由来するものは3種類だけで、
+  いずれも引用箇所で出典を示しています。
+
+    - 参照解の契約金額（調達ポータル 落札実績オープンデータ／
+      国土地理院 随意契約結果書／各省の入札公告）
+    - 発注者側が達成した精度（環境省 藻場調査の全体精度 53.42〜85.91%）
+    - 先行研究の所見（Skakun et al. 2022、Hansen et al. 2013、Lyzenga 1978、
+      NASA Terra ミッションの軌道情報）
+
+  それ以外の数値は**すべて自前の実測**です。
+
+  All figures in this paper are our own measurements except for the three
+  classes above, each attributed at the point of use.
+
+
+3. プレプリントであること
+--------------------------
+
+  **査読を受けていません。** 版を改めた場合、何が変わったかは `.zenodo.json`
+  の要旨に版段落として書き、Zenodo のレコード上で追えるようにします。
+  撤回・訂正もそこに残します（消しません）。
+
+  This is a preprint and has not been peer reviewed. Changes between versions
+  are recorded as version paragraphs in the Zenodo record, including
+  retractions and corrections, which are added rather than substituted.

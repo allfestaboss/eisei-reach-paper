@@ -1,0 +1,758 @@
+<!doctype html><meta charset=utf-8><title>No error was raised: twenty-six broken measurements from a cross-domain audit of free satellite data</title><style>body{max-width:46em;margin:3em auto;padding:0 1.5em;
+  font:16px/1.85 "Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;color:#17222b}
+h1{font-size:1.85em;line-height:1.35}h2{margin-top:2.2em;border-bottom:1px solid #c7c0ae;padding-bottom:.3em}
+h3{margin-top:1.7em}h4{margin-top:1.2em;font-size:1em}
+pre{background:#f4f1e9;padding:1em;overflow-x:auto;font-size:.85em;border:1px solid #ddd6c6}
+code{background:#f4f1e9;padding:1px 4px;font-size:.9em}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-size:.88em;display:block;overflow-x:auto}
+th,td{border:1px solid #c7c0ae;padding:.5em .7em;text-align:left;vertical-align:top}
+th{background:#f4f1e9;white-space:nowrap}
+blockquote{border-left:3px solid #1f4a6b;margin:1em 0;padding:.3em 1em;color:#404c58}
+hr{border:0;border-top:1px solid #ddd6c6;margin:2.5em 0}li{margin:.3em 0}
+a{color:#1f4a6b}</style>
+<h1>No error was raised: twenty-six broken measurements from a cross-domain audit of free satellite data</h1>
+<p>Boss Ohkubo (Allfesta Corp.)  </p>
+<p>ORCID 0009-0007-8300-0039</p>
+<h2>Abstract</h2>
+<p>Published work on satellite applications is, with few exceptions, a collection</p>
+<p>of successes. What free Earth observation cannot do, and where the attempt to</p>
+<p>measure whether it can do it breaks down, is largely absent from the record.</p>
+<p>We report a cross-domain audit built to close that gap, and the main finding is</p>
+<p>about the audit rather than about satellites.</p>
+<p>Fifteen advertised industrial applications of satellite data were implemented</p>
+<p>in full, fixed to a single region so that results are comparable, and run on</p>
+<p>free, unauthenticated data only. All fifteen completed. Nine were then scored</p>
+<p>against reference solutions we cannot move: awarded national-government</p>
+<p>contracts, each with a title, a contracting body and a contract value,</p>
+<p>recovered from thirteen fiscal years of Japanese procurement open data</p>
+<p>(312,584 records, of which 332 are satellite analysis or survey work). The</p>
+<p>remaining six were not measured because the state does not buy them. Four</p>
+<p>industries — insurance, finance, retail and tourism — returned zero analysis</p>
+<p>contracts in 312,584 records, and two were artefacts of keyword matching. The</p>
+<p>list of fifteen was a demand claim, not a description of demand.</p>
+<p>Seven technical walls and four institutional walls are reported. **Only one of</p>
+<p>the seven is bought off with money**, and the name we first gave that one —</p>
+<p>resolution — turned out to be imprecise, because the commercial sensor that</p>
+<p>would solve it changes pixel size and band count together, so what is being</p>
+<p>bought cannot be separated. Two walls are properties of the measuring</p>
+<p>instrument rather than of the method: a free analysis-ready SAR product that</p>
+<p>has already discarded phase, and a thermal sensor whose overpass time has been</p>
+<p>drifting since orbit maintenance ended, bending a night-time land-surface-</p>
+<p>temperature trend from +0.083 to +0.812 K/yr and contaminating every year we</p>
+<p>wished to compare. One is not a technical wall at all: a satellite quantity can</p>
+<p>be measured correctly and still add nothing, because the target statistic is</p>
+<p>already explained by population at r = 0.85 to 0.95.</p>
+<p>The core of the paper is a ledger of **twenty-six occasions on which the</p>
+<p>measurement itself was broken**. Every one returned a plausible value without</p>
+<p>raising an error, and <strong>ten returned a good result</strong> — the asymmetry that bad</p>
+<p>results are doubted while good ones are not is the largest single threat to</p>
+<p>self-directed measurement, and it is why the protocol freezes a prediction, a</p>
+<p>decision criterion and a counter-hypothesis before each run, so that a</p>
+<p>confirmed prediction is also audited. Four recurring shapes are recorded:</p>
+<p>repairing one defect introduced the next; four separate defects stacked inside</p>
+<p>one measurement; a default value written by the author converted &quot;not</p>
+<p>registered&quot; into &quot;no data&quot;; and twice the prediction appeared to be confirmed</p>
+<p>precisely because the measurement was wrong.</p>
+<p>All code, frozen predictions, verdicts and measurement records are released</p>
+<p>under a DOI. We report what we could not establish as carefully as what we</p>
+<p>could: the wall taxonomy kept changing as industries were added and we have no</p>
+<p>basis for calling it complete; institutional reach rests on a single observed</p>
+<p>rejection; the region is fixed and in at least one industry the region</p>
+<p>determines the conclusion; and &quot;zero procurement&quot; means zero in</p>
+<p>central-government competitive tendering, not zero in existence.</p>
+<hr>
+<h2>1. Introduction</h2>
+<p>Tables of &quot;industrial applications of satellite data&quot; circulate widely in space</p>
+<p>business material: agriculture, forestry, fisheries, disaster response,</p>
+<p>insurance, finance, infrastructure, real estate, retail, energy, environment,</p>
+<p>health, government, tourism, aviation. Each row states that satellites are</p>
+<p>useful for something. Almost none of them states what happens when you try.</p>
+<p>This is not a complaint about marketing. It reflects a structural property of</p>
+<p>the literature. Demonstrations are published when they work; a method that</p>
+<p>returns an area estimate 0.13 times the official figure, or an index that</p>
+<p>correlates with recorded agricultural damage in the wrong direction, does not</p>
+<p>usually become a paper, a case study or a slide. The Japanese government&#x27;s own</p>
+<p>use-case collections are explicitly collections of good practice. The most</p>
+<p>useful public buying guide we found — a use-case-to-sensor-specification table</p>
+<p>published by a media outlet operated by a satellite platform vendor — is a</p>
+<p>guide to what to purchase, and is organised around applications that succeed.</p>
+<p>The consequence is that a practitioner asking &quot;can free satellite data do X?&quot;</p>
+<p>has a well-populated space of yes and an almost empty space of no. Worse, the</p>
+<p>empty space is not uniformly empty: it hides the distinction between *this</p>
+<p>cannot be done<em>, </em>this can be done but you measured it wrong<em>, and </em>this can be</p>
+<p>done correctly and is still worthless*. We found all three, and could not tell</p>
+<p>them apart until we had built machinery to tell them apart.</p>
+<h3>1.1 What this paper does</h3>
+<p>We took a fifteen-row application table at face value and implemented every</p>
+<p>row. The region was fixed to one prefecture so that results across rows are</p>
+<p>comparable rather than incidentally different. Only free, unauthenticated data</p>
+<p>was used — no account, no key, no invoice — because that is the boundary whose</p>
+<p>position we wanted to locate. All fifteen ran to completion in 108 seconds of</p>
+<p>compute after caching, and none was blocked by data availability.</p>
+<p>Running an implementation is not measuring reach. To measure reach we need an</p>
+<p>external statement of what the work is and what it is worth, and it must be one</p>
+<p>we cannot adjust after seeing our own results. We used awarded public</p>
+<p>procurement contracts. Japan&#x27;s procurement portal publishes the successful-bid</p>
+<p>record of every central-government competitive tender as annual open data:</p>
+<p>title, contracting body, contract value, supplier, corporate number. Thirteen</p>
+<p>fiscal years is 312,584 records, of which 332 are satellite analysis or survey</p>
+<p>work. Where a contract exists, the state has said &quot;this is the job&quot; and paid a</p>
+<p>number for it, and both the description and the number are outside our control.</p>
+<p>Two axes are kept separate throughout, because collapsing them produces</p>
+<p>statements that cannot be acted on. <strong>Technical reach</strong> counts deliverables</p>
+<p>listed in the statement of work that we could actually produce. **Institutional</p>
+<p>reach** asks whether the bid could be submitted at all — qualification,</p>
+<p>staffing, track record. A result of &quot;technically reachable, institutionally</p>
+<p>excluded&quot; is a different fact from &quot;neither&quot;, and the remedies have nothing in</p>
+<p>common.</p>
+<h3>1.2 What we found</h3>
+<p>Three findings, in increasing order of how much they surprised us.</p>
+<p><strong>The denominator was wrong.</strong> Only nine of the fifteen industries are procured</p>
+<p>by the state at all. Four — insurance, finance, retail, tourism — returned zero</p>
+<p>analysis contracts in 312,584 records. Two more dissolved on inspection: real</p>
+<p>estate&#x27;s five hits were four disaster-damaged-building surveys and one survey</p>
+<p>of photography practice, and aviation&#x27;s forty-six were all keyword collisions</p>
+<p>with <em>airborne</em> laser scanning, which shares a character with <em>aviation</em> in</p>
+<p>Japanese. The fifteen-row table was a claim about demand, not a description of</p>
+<p>it. Where demand is not established, the state is paying for the search: the</p>
+<p>largest contracts we could not classify are Cabinet Office demonstration</p>
+<p>programmes for finding uses for small SAR constellations, at over one billion</p>
+<p>yen a year.</p>
+<p><strong>Seven technical walls, and only one of them is priced.</strong> Section 3 sets these</p>
+<p>out. The short version is that the intuitive model — free data is coarse, paid</p>
+<p>data is fine, money moves the line — describes exactly one of the seven. Two</p>
+<p>walls are properties of the measuring instrument and are not removed by buying</p>
+<p>a better one. One is a wall only in a commercial sense: the measurement is</p>
+<p>correct and the result is redundant against a statistic that already exists.</p>
+<p><strong>Twenty-six measurements were broken, and none of them raised an error.</strong></p>
+<p>This is the finding we consider most transferable, and Section 4 is the ledger.</p>
+<p>Every defect returned a plausible number. Ten of the twenty-six returned a</p>
+<p><em>good</em> number — a high AUC, a strong correlation, a value matching the frozen</p>
+<p>prediction. Because bad results get re-examined and good results get written</p>
+<p>down, a self-directed measurement programme will accumulate exactly the errors</p>
+<p>that flatter it. Our protocol freezes a prediction, a decision criterion and a</p>
+<p>counter-hypothesis before each run specifically so that a confirmed prediction</p>
+<p>still has to be audited; twice, that is the only reason we caught the defect.</p>
+<h3>1.3 Scope and honesty about it</h3>
+<p>This is a single-operator study over one region with reference solutions from</p>
+<p>one country&#x27;s procurement system. We state limits before findings wherever we</p>
+<p>can, and Section 5 collects them. The most important is that the wall taxonomy</p>
+<p>was still moving when we stopped: three industries in, we wrote that there was</p>
+<p>exactly one technical wall; at six there were five; at nine there are seven,</p>
+<p>and the name we gave the first one turned out to be wrong. We have no basis for</p>
+<p>claiming that seven is the number.</p>
+<hr>
+<h2>2. Design</h2>
+<h3>2.1 One region, fifteen implementations</h3>
+<p>The region is Fukuoka Prefecture, in northern Kyushu, Japan. Fixing it is a</p>
+<p>design decision with a cost that we state up front: in at least one industry</p>
+<p>the region determines the result. Rice transplanting in Fukuoka falls in the</p>
+<p>middle-to-late June, which coincides exactly with the rainy season; clear-sky</p>
+<p>probability in the relevant window is 0.0 to 5.5 per cent. **On the days it is</p>
+<p>clear the paddies are not yet planted, and after planting it is not clear.**</p>
+<p>An optical approach to paddy mapping is not merely difficult here, it is</p>
+<p>unavailable, and a study fixed to a different region would have reported a</p>
+<p>different wall for the same industry.</p>
+<p>We accept that cost because the alternative is worse. If each industry is</p>
+<p>measured in whichever region it works best, the cross-industry comparison</p>
+<p>measures our choice of regions. Nationwide replication is not &quot;the same thing</p>
+<p>1,741 times&quot; but &quot;1,741 differently conditioned measurements&quot;, which is not a</p>
+<p>cost problem but an unmeasured one. Two industries (pollen and NO2) were</p>
+<p>measured nationwide because their reference statistics are prefectural.</p>
+<p>Only free, unauthenticated sources were used: Copernicus Sentinel-1 RTC,</p>
+<p>Sentinel-2 L2A and Sentinel-5P via Microsoft Planetary Computer and Earth</p>
+<p>Search, Landsat Collection 2 Level-2, MODIS, an annual 10 m land cover product,</p>
+<p>Copernicus DEM, NOAA blended sea-surface temperature via ERDDAP, and the</p>
+<p>Himawari-9 geostationary archive. Planetary Computer issues a short-lived</p>
+<p>signed URL to an unauthenticated GET, so no account exists anywhere in the</p>
+<p>pipeline. One product resisted: night-time lights, for which we found no free</p>
+<p>route, and the two industries whose canonical method is night-time lights were</p>
+<p>re-implemented with substitutes and are labelled as such.</p>
+<h3>2.2 Reference solutions from public procurement</h3>
+<p>The measurement problem in a self-directed study is that the subject and the</p>
+<p>examiner are the same person. Our defence is to put the answer key somewhere we</p>
+<p>cannot reach.</p>
+<p>Japan&#x27;s procurement portal distributes successful-bid records for</p>
+<p>central-government competitive tenders as per-fiscal-year ZIP archives.</p>
+<p>Thirteen fiscal years (FY2014 to FY2026) contain 312,584 records with eight</p>
+<p>fields: procurement number, title, contract date, contract value, category,</p>
+<p>agency code, supplier and corporate number. Filtering to satellite and remote</p>
+<p>sensing work, removing communications and facilities contracts, and keeping</p>
+<p>analysis and survey work leaves 332 records. Every one of the nine measured</p>
+<p>industries takes its reference from that set.</p>
+<p>Four traps are worth recording because each cost us time or a wrong claim.</p>
+<ul>
+<li><strong>Encoding.</strong> The CSV is UTF-8 with a byte-order mark and no header row.</li>
+</ul>
+<p>   Sniffing the encoding from the first four kilobytes splits a multi-byte</p>
+<p>   character and every candidate encoding fails, producing &quot;undetectable&quot;.</p>
+<ul>
+<li><strong>Coverage.</strong> These are <em>competitive tenders only</em>. Sole-source contracts</li>
+</ul>
+<p>   are not included, and neither is any municipal procurement. The Geospatial</p>
+<p>   Information Authority&#x27;s four sole-source SAR contracts for FY2025, totalling</p>
+<p>   84.35 million yen, are reachable only through separately published</p>
+<p>   sole-source disclosure documents.</p>
+<ul>
+<li><strong>Keywords.</strong> Searching for &quot;satellite&quot; returns satellite telephones,</li>
+</ul>
+<p>   satellite communications and air-conditioning maintenance at a meteorological</p>
+<p>   satellite centre. In the other direction, &quot;airborne laser&quot; collides with</p>
+<p>   &quot;aviation&quot; and produced forty-six false members of an industry that turned</p>
+<p>   out to have none.</p>
+<ul>
+<li><strong>Agency codes do not identify a ministry.</strong> The single code 8002010</li>
+</ul>
+<p>   contains the Ministry of Justice, the Ministry of Land, Infrastructure and</p>
+<p>   Transport, the Ministry of the Environment and the Forestry Agency.</p>
+<p><strong>The contract does not state the requirement.</strong> It states what was paid. The</p>
+<p>required accuracy lives in the product specification or the statement of work,</p>
+<p>and both have to be read to construct a scoring rule at all. Two examples</p>
+<p>determined how we scored: the national land-use product specifies a conformance</p>
+<p>level of <em>zero per cent error against the interpreted base map</em>, and an</p>
+<p>environment-ministry seagrass survey reports achieved overall accuracy of 53.42</p>
+<p>to 85.91 per cent using a commercial 50 cm eight-band sensor. The first says</p>
+<p>the answer lives inside a human judgement; the second gives a number a free</p>
+<p>method can be compared against.</p>
+<h3>2.3 The freeze protocol</h3>
+<p>Before each measurement runs, a file is written containing four things, and it</p>
+<p>is not edited afterwards:</p>
+<ul>
+<li>the <strong>question</strong>, and which cell of the framework in §2.4 it occupies;</li>
+<li>the <strong>reference solution</strong>, with title, agency, supplier and contract value;</li>
+<li>a <strong>numeric prediction</strong> with an interval;</li>
+<li>a <strong>decision criterion</strong> stated as a threshold, and a <strong>counter-hypothesis</strong></li>
+</ul>
+<p>  (an alternative explanation that must be beaten) frozen at the same time.</p>
+<p>After the run a verdict file records the outcome against that criterion. The</p>
+<p>prediction files exist so that a <em>correct</em> prediction can still be audited;</p>
+<p>this is not symmetric with the usual reason for pre-registration. Two entries</p>
+<p>in the ledger of Section 4 were caught only because the prediction was matched</p>
+<p>too neatly.</p>
+<p>The counter-hypothesis is the part that changed the most results. For the NO2</p>
+<p>industry we froze &quot;the raw correlation will be high and will still lose to</p>
+<p>population&quot; as the criterion, rather than freezing a correlation target. The</p>
+<p>measured raw correlation was 0.910 — by any conventional reading a success —</p>
+<p>and the frozen criterion is the only reason it was recorded as a failure.</p>
+<h3>2.4 Four observables, two samplings</h3>
+<p>Satellites measure four things: **intensity, wavelength, polarisation and</p>
+<p>phase** — in plainer terms, brightness, colour and temperature, how radio waves</p>
+<p>bounce back, and gas absorption. Space and time are not quantities but</p>
+<p><strong>samplings</strong> of those quantities. That gives six cells, and four of the seven</p>
+<p>technical walls fall into them cleanly: wavelength selection, phase</p>
+<p>availability, spatial sampling and temporal sampling.</p>
+<p>The framework earned its place by catching something about our own work.</p>
+<p><strong>The first fifteen implementations used two cells.</strong> Three of them read only</p>
+<p>the <code>vv</code> band of an analysis-ready SAR product, and the <code>vh</code> band was inside the</p>
+<p>same free asset, unread. The acquisition path had silently determined the</p>
+<p>observable: the analysis-ready product retains amplitude and has already</p>
+<p>discarded phase, while the single-look complex product retains amplitude,</p>
+<p>phase and polarisation but is heavy to process. <strong>Both are free.</strong> Of the six</p>
+<p>cells, exactly one — spatial sampling — is moved by money.</p>
+<p>We then measured whether polarisation helps, with a frozen ladder of</p>
+<p>counter-hypotheses (optical alone, VV alone, VV plus VH). For solar</p>
+<p>installations, where optical is strong at AUC 0.951, polarisation adds</p>
+<p>-0.003. For buildings, where optical fails (NDBI 0.607, NDVI 0.618), VH alone</p>
+<p>is the best single feature at 0.734 and polarisation adds +0.027 over VV alone,</p>
+<p>or +0.041 over optical plus VV. The verdict is &quot;it works, and it is not</p>
+<p>enough&quot;: the ceiling is about 0.78, and the improvement appears only where</p>
+<p>optical has already failed. Sentinel-1 IW is dual-polarisation, not fully</p>
+<p>polarimetric, so this is a statement about free dual-pol data and not about</p>
+<p>polarimetry.</p>
+<hr>
+<h2>3. Where it stops</h2>
+<h3>3.1 The nine measured industries</h3>
+<table>
+<tr><th>Industry</th><th>Reference solution (contract value)</th><th>Observable</th><th>Wall</th><th>Verdict</th></tr>
+<tr><td>Solar energy</td><td>MoE PV survey, 211.0 M JPY</td><td>intensity, wavelength</td><td>priced (resolution)</td><td>4 of 10 deliverables</td></tr>
+<tr><td>Paddy rice</td><td>MAFF rice statistics, 8.96 / 7.33 M JPY</td><td>intensity, <strong>polarisation</strong></td><td>observable selection</td><td>partial</td></tr>
+<tr><td>Forest logging</td><td>14.35 / 5.55 M JPY</td><td>intensity, wavelength</td><td>threshold calibration</td><td><strong>reached</strong> (quantile)</td></tr>
+<tr><td>Flood extent</td><td>MoE, 45.40 M JPY</td><td>intensity (SAR)</td><td>timeliness</td><td>not reached</td></tr>
+<tr><td>Land use</td><td>MLIT, 36.00 M JPY</td><td>intensity, wavelength</td><td>location of the truth</td><td>partial</td></tr>
+<tr><td>Ground deformation</td><td>68.12 M JPY</td><td><strong>phase</strong></td><td>institutional (track record)</td><td>inputs only</td></tr>
+<tr><td>Seagrass</td><td>Port and Airport Research Institute tender no. 101</td><td>intensity, wavelength</td><td>priced (unseparable)</td><td>not reached</td></tr>
+<tr><td>Cedar pollen</td><td>MoE 17.72 M + airborne lidar 161.23 M JPY</td><td>wavelength (thermal)</td><td>drift of the instrument</td><td>not reached</td></tr>
+<tr><td>NO2</td><td>NIES, 138.89 M JPY</td><td><strong>gas absorption</strong></td><td>redundancy with existing statistics</td><td>not reached</td></tr>
+</table>
+<p>All four observables are represented: five optical, two SAR amplitude, one</p>
+<p>interferometric phase, one atmospheric. Gas absorption was the last cell to be</p>
+<p>filled. <strong>Different observables produce different walls</strong>, which is the reason</p>
+<p>&quot;what can free satellite data do?&quot; has no cross-industry answer.</p>
+<h3>3.2 Seven technical walls</h3>
+<p><strong>Wall 1 — the priced wall, although &quot;resolution&quot; is the wrong name.</strong></p>
+<p>For rooftop photovoltaics it really is resolution: spectrally, a panel on a roof</p>
+<p>and the roof itself are the same thing at 10 m. For seagrass the same paid</p>
+<p>boundary appears, but the commercial sensor that would cross it changes 50 cm</p>
+<p>pixels and eight bands at once, so what money buys cannot be separated into</p>
+<p>sharpness or colour. The defensible claim is &quot;only money solves this&quot;, not</p>
+<p>&quot;resolution solves this&quot;. This is the only one of the seven that money solves.</p>
+<p><strong>Wall 2 — choice of observable.</strong> Determined before measurement begins. The</p>
+<p>paddy case above: optical succeeded in 3 of 16 municipalities, SAR in 16 of 16,</p>
+<p>with correlation rising from 0.239 (VV only) to 0.814 (VV plus VH). The</p>
+<p>framework of §2.4 would have said so in advance, and we entered through optical</p>
+<p>anyway.</p>
+<p><strong>Wall 3 — threshold calibration, and it is detectable without ground truth.</strong></p>
+<p>For forest loss, pixel-level AUC is 0.906 to 0.974 across all eleven</p>
+<p>municipalities: <strong>the ranking works everywhere</strong>. What was broken was the</p>
+<p>position of the cut. A fixed absolute threshold of 0.20 lands at a quantile</p>
+<p>that varies from the 90.1st to the 99.6th percentile depending on the</p>
+<p>municipality, and detection rates therefore varied by a factor of 23.7. Cutting</p>
+<p>at the top one per cent per municipality moved the correlation with the official</p>
+<p>figure from 0.156 to 0.835. <strong>The diagnostic requires no ground truth at all</strong></p>
+<p>— only the spread of detection rate across windows. A factor of three means an</p>
+<p>absolute threshold is safe; a factor of 23.7 means it is not.</p>
+<p><strong>Wall 4 — timeliness, as a ratio between revisit and event duration.</strong></p>
+<p>For the July 2023 Chikugo river floods, **no free satellite observed the day of</p>
+<p>inundation.** Sentinel-1 passed on 1 July and 13 July against a 12-day revisit;</p>
+<p>Sentinel-2 was 99.3 per cent cloud on the day. What remained three days later</p>
+<p>scored AUC 0.574 and best F1 0.111, because the water had gone. This is the</p>
+<p>clearest case in the study of what a contract value buys: 45.4 million yen is</p>
+<p>not paying for a better algorithm, it is paying for **the right to task an</p>
+<p>acquisition**.</p>
+<p><strong>Wall 5 — where the truth lives.</strong> The national land-use product specifies</p>
+<p>conformance as zero per cent error, but against the <em>interpreted base map</em>, not</p>
+<p>against reality. The answer is inside the contractor&#x27;s human judgement, and</p>
+<p>external reach cannot be scored. Our own agreement with the four main land</p>
+<p>classes was 0.841 against a naive counter-hypothesis (label everything forest)</p>
+<p>at 0.583; forest recall 0.939 and precision 0.933, but farmland 0.440 and</p>
+<p>inland water 0.408. The 36 million yen is buying human interpretation itself.</p>
+<p><strong>Wall 6 — drift of the instrument.</strong> Terra ended orbit maintenance in</p>
+<p>February 2020 and its overpass time has drifted since. In our pollen panel</p>
+<p>(132 samples, four years by 33 prefectures) night-time land-surface temperature</p>
+<p>rose 2.1 K over fourteen years while daytime stayed flat, and the trend bends</p>
+<p>from +0.083 to +0.812 K/yr at exactly February 2020 — a factor of 9.8. **All</p>
+<p>four target years sit inside the contaminated period.** Removing the annual</p>
+<p>mean returns the signal to 0.264 against a pre-frozen chance level of 0.265.</p>
+<p>A commercial sensor has the same property, so this wall is not priced: it is</p>
+<p>the wall of <em>comparing across years</em>, where wall 4 is the wall of *arriving in</p>
+<p>time*.</p>
+<p><strong>Wall 7 — redundancy with existing statistics.</strong> Our NO2 retrieval is</p>
+<p>physically sound: Osaka highest at 1.01e-4, then Kanagawa, Chiba, Saitama,</p>
+<p>Ibaraki, Aichi, with Aomori and Hokkaido at the bottom. That is the correct</p>
+<p>distribution for Japan. It still loses. Across all four framings, the raw</p>
+<p>correlation with prefectural CO2 emissions is beaten by population (NO2 0.599 /</p>
+<p>-0.045 / 0.910 / 0.410 against population 0.851 / 0.884 / 0.948 / 0.930), and in</p>
+<p>the log framings the partial correlation is -0.051 and 0.078. The prediction of</p>
+<p><em>which</em> prefectures emit more than population explains was sharp — Oita,</p>
+<p>Okayama, Yamaguchi, Hiroshima were named at freeze time and came out on top —</p>
+<p>but the satellite residual correlates with that excess at -0.051. **Correct and</p>
+<p>worthless are compatible**, and this is invisible unless a counter-hypothesis is</p>
+<p>part of the decision criterion.</p>
+<h3>3.3 Four institutional walls, one of them observed</h3>
+<table>
+<tr><th></th><th>Wall</th><th>Status</th></tr>
+<tr><td>I1</td><td>Staffing</td><td><strong>The only direct observation.</strong> A municipal open call rated the content highly and rejected a sole-operator organisation</td></tr>
+<tr><td>I2</td><td>Qualification</td><td><strong>Our prediction was wrong.</strong> Neither consultant registration nor a licensed engineer was required; the only qualification was the all-ministry unified vendor registration, obtainable by a sole proprietor</td></tr>
+<tr><td>I3</td><td>Track record</td><td>Hard where money is involved: &quot;experience having <em>undertaken</em> such work in the past five years&quot;. No award without a record, no record without an award — a bootstrap wall</td></tr>
+<tr><td>I4</td><td>Paperwork</td><td>The only wall crossable by effort alone. Information-security attestation via a free self-assessment benchmark with a self-issued certificate; the pass line is an average of 4.0 over 27 questions. Money and track record are irrelevant; answered honestly, we do not currently clear it</td></tr>
+</table>
+<p><strong>One claim here was retracted during the study</strong>, and we record the retraction</p>
+<p>rather than the conclusion. We had written that a single verb marks the</p>
+<p>boundary: a port tender requires work &quot;undertaken&quot;, while an agriculture</p>
+<p>ministry call requires having &quot;worked on&quot; prediction — the softer verb being the</p>
+<p>way in. Reading the full application guidelines dissolved it. The first page</p>
+<p>reads &quot;we are seeking operators willing to cooperate <strong>without compensation</strong></p>
+<p>with statistical research&quot;. The two documents were not two procurement</p>
+<p>postings; one was an unpaid research collaboration, and the verb difference is</p>
+<p>confounded with payment. The same guidelines assign copyright in the outputs to</p>
+<p>the ministry without compensation, which would have made participation</p>
+<p>incompatible with publishing what we reached.</p>
+<p>What survived is narrower and more useful: one paid tender (17.72 million yen)</p>
+<p>lists the unified vendor registration as the only qualification and states no</p>
+<p>track-record requirement. In a comprehensive-evaluation tender, experience has</p>
+<p>presumably moved to the scoring side rather than the gate. That is the case we</p>
+<p>had been looking for, and it appeared in the last industry we measured.</p>
+<h3>3.4 Three things visible only across industries</h3>
+<p><strong>Ranking transfers, magnitude does not.</strong> Detected over actual is 0.42 for</p>
+<p>solar, 0.13 for paddy, 0.79 for forest loss. Forest loss was 1.69 before the</p>
+<p>cut was corrected, so the sign of the error flipped. Whether a method</p>
+<p>under- or over-estimates is method-specific; that the absolute quantity is</p>
+<p>wrong was universal.</p>
+<p><strong>&quot;Accuracy&quot; does not exist until the denominator is fixed.</strong> With the same</p>
+<p>method, same scene and same date, changing only the water mask moved seagrass</p>
+<p>AUC from 0.387 to 0.897. Seagrass occupies 0.3 to 3 per cent of the water, so</p>
+<p><strong>detecting nothing scores 83.6 to 99.7 per cent overall accuracy</strong>. In the NO2</p>
+<p>case, choosing total against per-area and linear against log moves the partial</p>
+<p>correlation from -0.05 to 0.61. These are not walls; they are the scoring rule.</p>
+<p><strong>Designing the criterion mattered more than the measurement.</strong> The pollen</p>
+<p>industry ended without answering the sharpest question — what does the</p>
+<p>satellite add over ground weather stations — so for NO2 that question was</p>
+<p>written into the decision criterion before the run. Without it, a raw</p>
+<p>correlation of 0.910 would have been recorded as a success.</p>
+<hr>
+<h2>4. Twenty-six broken measurements</h2>
+<p>This is the part of the study we consider most transferable, because nothing in</p>
+<p>it is specific to satellites. **All twenty-six defects returned a plausible</p>
+<p>value without raising an exception.** None would have been caught by testing</p>
+<p>that the code runs, by type checking, or by any check whose failure mode is a</p>
+<p>crash.</p>
+<h3>4.1 The ledger</h3>
+<table>
+<tr><th></th><th>What was broken</th><th>What caught it</th></tr>
+<tr><td>01</td><td>Linear discriminant fitted on absolute dB values</td><td>It got worse out of sample</td></tr>
+<tr><td>02</td><td>&quot;Four scenes&quot; was two dates times two granules</td><td>Listed granule dates</td></tr>
+<tr><td>03</td><td>Visual-inspection targets chosen by patch area</td><td>Recognised the bias</td></tr>
+<tr><td>04</td><td>Reported that two measurements agreed</td><td>Measured precision directly</td></tr>
+<tr><td>05</td><td>Judged two contracts identical because titles matched</td><td>Read the Q&amp;A document</td></tr>
+<tr><td>06</td><td>Classified a harvest survey as agriculture</td><td>Read the contracting body</td></tr>
+<tr><td>07</td><td>Used a historically subsiding area as a control</td><td>Read the regulation</td></tr>
+<tr><td>08</td><td>Read a low-zoom tile as a numeric value</td><td>Colour inversion produced midtones</td></tr>
+<tr><td>09</td><td>Our own grep was deleting the output</td><td>Looked at raw output</td></tr>
+<tr><td>10</td><td>Overlaid two rasters in different CRSs, believing them aligned</td><td>Drew the overlay</td></tr>
+<tr><td>11</td><td>Computed a variable and never used it</td><td>Re-read the code</td></tr>
+<tr><td>12</td><td>Resampled categorical values with bilinear interpolation</td><td>Area quietly shrank</td></tr>
+<tr><td>13</td><td>Launched the same job twice</td><td>Corrupted PNGs</td></tr>
+<tr><td>14</td><td>Failed tile fetches persisted as black rectangles</td><td>Looked at the image</td></tr>
+<tr><td>15</td><td>Detected encoding from the first 4,000 bytes</td><td>Distrusted &quot;undetectable&quot;</td></tr>
+<tr><td>16</td><td>The compared samples had been swapped</td><td>Listed municipality names</td></tr>
+<tr><td>17</td><td>Compared a paid contract with unpaid research cooperation</td><td>Read the full guidelines</td></tr>
+<tr><td>18</td><td>Measured in a season the ground truth was never captured in</td><td>Counted truth capture months</td></tr>
+<tr><td>19</td><td>A mask choice put 87 per cent of the truth outside the denominator</td><td>Reported truth coverage</td></tr>
+<tr><td>20</td><td>Estimated a depth-removal coefficient where depth was not the only variable</td><td>Read the method&#x27;s premise</td></tr>
+<tr><td>21</td><td>Did not correct sun glint, producing a season-flipping value</td><td>Three areas converged to one value</td></tr>
+<tr><td>22</td><td>An unregistered collection silently routed to another provider</td><td>Read the default value</td></tr>
+<tr><td>23</td><td>The mechanism named two drivers and we measured one</td><td>Re-read the mechanism</td></tr>
+<tr><td>24</td><td>Nearly reported a sensor drift artefact as a real signal</td><td>Looked for a break point</td></tr>
+<tr><td>25</td><td>Compared a concentration against a total</td><td>Wrote out the units</td></tr>
+<tr><td>26</td><td>Subsampled without checking the data volume, and hit the prediction</td><td>Counted the available days</td></tr>
+</table>
+<p>Full descriptions with figures are in the companion repository</p>
+<p>(<code>docs/LEDGER.md</code>); the eight below are the ones that carry the argument.</p>
+<p><strong>04 — agreement that was not independent.</strong> A detected-to-official ratio of</p>
+<p>0.415 and a recall of 0.474 were reported as mutually confirming. The agreement</p>
+<p>silently assumed precision near 1. Measuring precision visually gave 40.8 per</p>
+<p>cent, and the agreement evaporated. Two numbers that agree are one piece of</p>
+<p>evidence unless their derivations are independent.</p>
+<p><strong>12 and 16 — repairing one defect produced the next.</strong> Hansen forest-loss</p>
+<p>year is categorical: 0 means no loss, 1 to 24 encode a year. Regridding it with</p>
+<p>bilinear interpolation <strong>removed 22 per cent of the loss area silently</strong>, which</p>
+<p>made our own over-detection look worse than it was. We had just fixed defect 10</p>
+<p>(a CRS mismatch) and passed the data through the same function without noticing.</p>
+<p>Then, re-computing after the fix, we drew the municipality list in registry</p>
+<p>order while the original measurement had used descending forest cover. The</p>
+<p>before-and-after comparison was between different samples. The numbers came out</p>
+<p>looking entirely normal.</p>
+<p><strong>18 to 21 — four defects stacked inside one measurement.</strong> The seagrass</p>
+<p>industry carried, simultaneously: measuring in November when the ground truth</p>
+<p>imagery exists only for March-May and October; masking shallow water with the</p>
+<p>red band, which at Kd ≈ 0.4/m retains two per cent of signal over a five-metre</p>
+<p>round trip and therefore put 87 per cent of the truth outside the denominator;</p>
+<p>estimating a Lyzenga depth-invariant coefficient over mixed bottom types when</p>
+<p>the method requires uniform sand, so that the coefficient removed substrate as</p>
+<p>well as depth; and no sun-glint correction. **The first of these returned AUC</p>
+<p>0.967 in one area** — the best number in the entire study at that point. After</p>
+<p>correction, three areas and three dates converge on 0.46, and *the disappearance</p>
+<p>of the variance is itself the evidence that the correction was right*.</p>
+<p><strong>09 and 22 — a default we wrote erased what we were looking for.</strong> In one</p>
+<p>case a filter that stripped indentation was deleting every result line, and we</p>
+<p>concluded the search returned nothing and went looking at the search side. In</p>
+<p>the other, <code>PROVIDER.get(collection, &quot;es&quot;)</code> sent an unregistered collection to</p>
+<p>the wrong provider, which returned zero results without error. **&quot;It does not</p>
+<p>exist&quot; and &quot;I looked in the wrong place&quot; became indistinguishable.** The fix is</p>
+<p>structural: the lookup now raises rather than defaulting.</p>
+<p>**24 and 26 — the prediction was confirmed because the measurement was</p>
+<p>wrong.** In 24 the night-time temperature trend was positive in all four</p>
+<p>framings, exactly as the mechanism predicts, and we nearly wrote it up before</p>
+<p>finding the February 2020 break. In 26 we subsampled an orbit archive to every</p>
+<p>fourth day &quot;because using all of it is excessive&quot;, obtained a partial</p>
+<p>correlation of 0.101 — <strong>almost exactly the frozen prediction</strong> — and only later</p>
+<p>found the archive held 48 days in total, so there had never been a reason to</p>
+<p>subsample. Noisy annual means dilute correlation, which biased the result</p>
+<p><em>towards</em> the prediction. Using all 45 days gives 0.165.</p>
+<h3>4.2 Ten of the twenty-six returned a good result</h3>
+<p>Defects 04, 05, 08, 12, 17, 18, 19, 24, 26 and the inverse of 01 all produced</p>
+<p>numbers that looked like success: a high AUC, a clean ratio, a confirmed</p>
+<p>prediction, a dramatic before-and-after. The remaining sixteen produced numbers</p>
+<p>that looked wrong, and those we investigated immediately.</p>
+<p>This asymmetry is, we think, the central methodological hazard of self-directed</p>
+<p>measurement, and it is not addressed by any of the usual machinery. Testing</p>
+<p>catches crashes. Calibration catches disagreement with a known answer, where</p>
+<p>one exists. Pre-registration catches moving the goalposts. **None of them</p>
+<p>catches a wrong measurement that lands where you expected it to land.** The</p>
+<p>only mechanism that worked for us was making a confirmed prediction trigger an</p>
+<p>audit rather than a conclusion, and it worked twice out of twenty-six — not</p>
+<p>because the mechanism is weak, but because the population of dangerous cases is</p>
+<p>small and every one of them is expensive.</p>
+<h3>4.3 What actually caught them</h3>
+<p>Grouping the right-hand column of the ledger:</p>
+<ul>
+<li><strong>Looking at the image or the objects</strong> (03, 10, 14, 18, and the control-point</li>
+</ul>
+<p>  failure in the resolution rework): nine cases. Cropping the top-ranked</p>
+<p>  detections and laying them out side by side was the single most productive</p>
+<p>  check in the study, and it found errors that no aggregate statistic did.</p>
+<ul>
+<li><strong>A counter-hypothesis or an alternative framing</strong> (01, 04, 07, 19, 25, and</li>
+</ul>
+<p>  the whole of wall 7): seven cases.</p>
+<ul>
+<li><strong>Physical or structural implausibility of the ordering</strong> (08, 21, 24, and the</li>
+</ul>
+<p>  resolution rework, where larger objects appeared to disappear first): five</p>
+<p>  cases. An ordering that violates physics is a signal to inspect the procedure,</p>
+<p>  not the value.</p>
+<ul>
+<li><strong>Reading the primary document in full</strong> (05, 06, 17, 20): four cases. In</li>
+</ul>
+<p>  three of these we had read an extract and taken a clause out of context.</p>
+<ul>
+<li><strong>Counting the denominator explicitly</strong> (19, 26, and the &quot;accuracy&quot; result of</li>
+</ul>
+<p>  §3.4): three cases.</p>
+<p>Aggregate statistics caught almost nothing. Every defect was already producing a</p>
+<p>reasonable aggregate; that is what made it a defect and not a bug.</p>
+<hr>
+<h2>5. What we cannot claim</h2>
+<p>We state these before the discussion because several of them are load-bearing.</p>
+<p><strong>L1 — The wall taxonomy was still moving when we stopped.</strong> At three</p>
+<p>industries we wrote that there was exactly one technical wall. At six there</p>
+<p>were five. At nine there are seven, and at nine we also discovered that the</p>
+<p>name given to the first one was wrong. There is no basis for treating seven as</p>
+<p>the number of walls; it is the number we had reached when we ran out of</p>
+<p>industries with reference solutions.</p>
+<p><strong>L2 — Institutional reach rests on one observation.</strong> A single open call in</p>
+<p>which a sole-operator organisation was rejected on staffing, with the content</p>
+<p>rated highly, is the only direct measurement. We read four tender documents in</p>
+<p>full, but we did not bid, and a conclusion assembled from reading tender</p>
+<p>documents was retracted the first time we read one of them completely (§3.3).</p>
+<p><strong>L3 — The region is fixed, and sometimes the region is the result.</strong> The</p>
+<p>paddy case is the clearest: an optical approach is unavailable in Fukuoka</p>
+<p>because transplanting coincides with the rainy season, and this is a property</p>
+<p>of the prefecture, not of optical remote sensing. Two industries were measured</p>
+<p>nationwide; seven were not.</p>
+<p>**L4 — In some industries the reference and the measurement are not the same</p>
+<p>thing.** The 161 million yen airborne-lidar contract used as a reference for</p>
+<p>pollen is for mapping cedar distribution and canopy volume, not for predicting</p>
+<p>a prefectural index relative to a normal year. The NO2 reference concerns</p>
+<p>greenhouse gases while we measured NO2. We declared the second mismatch at</p>
+<p>freeze time and noticed the first only afterwards, which is itself an instance</p>
+<p>of the failure mode catalogued as defect 05.</p>
+<p><strong>L5 — Some checks were left unfinished.</strong> The extended summer window for</p>
+<p>pollen, and a direct comparison against ground weather stations, were not run.</p>
+<p>We can say that the structural ceiling on the truth side (a year effect of</p>
+<p>0.358 against a decision line of 0.40) is computable without satellite data and</p>
+<p>that no repair reaches the line, but that is an argument, not the missing</p>
+<p>measurement.</p>
+<p><strong>L6 — &quot;Free cannot do it&quot; is really &quot;this configuration cannot do it&quot;.</strong> For</p>
+<p>seagrass we tried free 10 m visible bands and seven simple features. No</p>
+<p>supervised classification, no multi-temporal compositing. For NO2 we did not</p>
+<p>attempt emission inversion accounting for wind, chemical lifetime or vertical</p>
+<p>profile. Our strongest evidence is a ceiling estimate — selecting the best of</p>
+<p>seven candidate features <em>by looking at the ground truth</em> still tops out at</p>
+<p>0.60 — which bounds that configuration and not the problem.</p>
+<p>**L7 — &quot;Zero procurement&quot; means zero in central-government competitive</p>
+<p>tendering.** Sole-source contracts are absent from the dataset, as is all</p>
+<p>municipal procurement. Zero analysis contracts in 312,584 records is a strong</p>
+<p>fact about one channel, and it does not establish that the work is not bought.</p>
+<p><strong>L8 — The ledger of Section 4 is a lower bound.</strong> It records defects we</p>
+<p>found. A defect that produced a plausible value and was never contradicted by a</p>
+<p>counter-hypothesis, an image or a physical ordering is, by construction, still</p>
+<p>in the results. Two of the twenty-six were found only after we had already</p>
+<p>published a figure derived from them.</p>
+<hr>
+<h2>6. Related work</h2>
+<p><strong>Use-case collections are collections of successes.</strong> Japanese public-sector</p>
+<p>material on satellite data utilisation is explicitly organised as good practice,</p>
+<p>and the most useful commercial buying guide we found — a use-case-to-sensor</p>
+<p>specification table published by a media outlet operated by a satellite</p>
+<p>platform operator, with an accompanying price guide — is organised the same way,</p>
+<p>because its purpose is to help a reader choose what to buy. Neither form has a</p>
+<p>reason to record that a spectral index carries no information about buildings in</p>
+<p>a dense urban area, or that a vegetation-condition index is measuring something</p>
+<p>other than the agricultural damage it is used as a proxy for. This is not a</p>
+<p>criticism of either: it is the gap they leave.</p>
+<p><strong>Intercomparison exercises do publish failure, within a task.</strong> The most</p>
+<p>directly comparable work is the Cloud Mask Intercomparison eXercise conducted</p>
+<p>under the CEOS Working Group on Calibration and Validation, which evaluates ten</p>
+<p>cloud-masking algorithms over a common reference set and reports where each one</p>
+<p>fails (Skakun et al., 2022). CMIX holds the task fixed and varies the</p>
+<p>algorithm. We hold the budget fixed — free, unauthenticated data and simple</p>
+<p>methods — and vary the task across nine industries. The two are complementary,</p>
+<p>and the second appears to be much rarer: we did not find a cross-application</p>
+<p>ledger of negative results in Earth observation in Japanese or English, though</p>
+<p>we found partial precedents, including a Japanese agricultural-ministry</p>
+<p>demonstration report that enumerates cases where interpretation was not</p>
+<p>possible, and review articles in machine learning that collect cases where data</p>
+<p>augmentation fails.</p>
+<p><strong>Negative results and reproducibility.</strong> The general argument for publishing</p>
+<p>negative results is long-standing and we do not restate it. What this study adds</p>
+<p>is quantitative: in a programme of this shape, roughly one measurement in four</p>
+<p>was broken in a way that produced a plausible number, and **ten of those</p>
+<p>twenty-six produced a flattering one**. Any estimate of how much of the positive</p>
+<p>literature would survive the same audit has to start from the fact that the</p>
+<p>flattering failures are the ones that survive review by their author.</p>
+<p><strong>Ground-truth defects in benchmarks.</strong> The closest methodological sibling is</p>
+<p>our own earlier study of professional-practice benchmarks, which reports that a</p>
+<p>benchmark&#x27;s checking machinery — grader, calibration, adversarial suite — is</p>
+<p>entirely a function of the reference solution and therefore cannot detect an</p>
+<p>error in it (Ohkubo, 2026). The present work inverts the setting: there is no</p>
+<p>grader, the reference is a procurement contract we cannot alter, and the thing</p>
+<p>that breaks is the measurement rather than the answer key. The shared finding is</p>
+<p>that internal consistency is not evidence, in either direction.</p>
+<p><strong>Procurement records as a research instrument.</strong> Awarded-contract open data is</p>
+<p>normally used to study procurement itself — competition, pricing, supplier</p>
+<p>concentration. Using it as an externally fixed statement of *what a task is and</p>
+<p>what it is worth*, in order to score something unrelated to procurement, is the</p>
+<p>methodological move we would most like to see reused. It is transferable to any</p>
+<p>country with comparable disclosure, and it has the property that matters: the</p>
+<p>researcher cannot move it after seeing their own results.</p>
+<hr>
+<h2>7. Discussion</h2>
+<h3>7.1 What a contract value buys, when it can be read</h3>
+<p>Contract values are usually treated as opaque. In one case we could read one.</p>
+<p>The 45.4 million yen flood-damage contract is not buying a better inundation</p>
+<p>algorithm: the free archive contains no observation of the day of inundation,</p>
+<p>and three days later the water is gone (AUC 0.574). What the money buys is the</p>
+<p>right to task an acquisition. That is a statement about **which cell of §2.4 is</p>
+<p>being purchased** — temporal sampling, and specifically the on-demand kind —</p>
+<p>rather than about analytical capability.</p>
+<p>Generalising across the nine: of six cells, only spatial sampling is priced,</p>
+<p>and the on-demand corner of temporal sampling. Spectral degeneracy is solved by</p>
+<p>an external register, not by a sensor — a photovoltaic panel and a roof are the</p>
+<p>same spectrum, and the thing that separates them is a building footprint</p>
+<p>database. Polarisation and phase are free and simply require processing.</p>
+<p>Instrument drift is not priced at all. **A buying decision framed as &quot;free</p>
+<p>versus paid&quot; is therefore the wrong frame for five of six cells.** This is a</p>
+<p>sentence that neither a data vendor nor an agency promoting utilisation has any</p>
+<p>reason to write, which is the whole reason we think it is worth publishing.</p>
+<h3>7.2 Correct and worthless</h3>
+<p>The NO2 result is the one we expect to be least popular and most useful. The</p>
+<p>retrieval is right. The spatial pattern is the correct pattern for Japan. The</p>
+<p>prefectures we named at freeze time as emitting more than population predicts</p>
+<p>came out on top. And the satellite adds nothing, because prefectural CO2</p>
+<p>emissions are already explained by population at 0.85 to 0.95, and the</p>
+<p>satellite residual correlates with the excess at -0.051.</p>
+<p>A technical-reach measurement that does not carry a counter-hypothesis will</p>
+<p>score this as a success. Ours did not, only because the criterion had been</p>
+<p>written before the run, and it had been written before the run only because the</p>
+<p>previous industry had ended without answering the same question. **The</p>
+<p>counter-hypothesis is not a robustness check appended to a result; it belongs</p>
+<p>in the decision criterion, frozen.**</p>
+<h3>7.3 Good results as the dangerous ones</h3>
+<p>Ten of twenty-six defects returned a flattering number. We want to be precise</p>
+<p>about why this is worse than it sounds.</p>
+<p>A bad result triggers investigation automatically, because it is unpleasant and</p>
+<p>because there is an obvious next action. A good result triggers writing up.</p>
+<p>The defect population is therefore filtered: errors that hurt get fixed, errors</p>
+<p>that flatter get published. No amount of care applied <em>after</em> seeing the result</p>
+<p>corrects for this, because the care is applied selectively by the same</p>
+<p>asymmetry.</p>
+<p>The only countermeasure that worked was structural: freeze a prediction, and</p>
+<p>treat a match as a trigger for audit rather than as a conclusion. It caught two</p>
+<p>cases out of twenty-six. That sounds like a low yield until one notices that</p>
+<p>those two were, respectively, a sensor artefact we were about to publish as a</p>
+<p>physical signal, and a subsample we had no reason to take that happened to land</p>
+<p>on the predicted value.</p>
+<p>A second countermeasure was cheaper and caught more: <strong>look at the objects</strong>.</p>
+<p>Crop the top-ranked detections, lay them out, and look. Nine of the</p>
+<p>twenty-six were caught this way, including a case where five objects identified</p>
+<p>as aircraft on an airport apron were all buildings in the town to the east, and</p>
+<p>a case where control points supposedly on empty pavement were on car roofs.</p>
+<p>No aggregate statistic in the study caught anything these did not, and several</p>
+<p>aggregates were happily consistent with the defect.</p>
+<h3>7.4 For a reader deciding whether to use free Earth observation</h3>
+<p>Three practical consequences, in order of how much time they save.</p>
+<ul>
+<li><strong>Decide the observable before the method.</strong> Wall 2 was determined before</li>
+</ul>
+<p>   any data was touched. If the phenomenon is invisible in the chosen</p>
+<p>   observable — because the season is cloudy, because the quantity is phase and</p>
+<p>   the free product discards phase — no amount of method work recovers it.</p>
+<ul>
+<li><strong>Test threshold calibration with no ground truth.</strong> Compute the detection</li>
+</ul>
+<p>   rate in each window and look at its spread. A factor of three permits an</p>
+<p>   absolute threshold; a factor of 23.7 requires a quantile. This single check</p>
+<p>   moved one industry from &quot;not reached&quot; to &quot;reached&quot; and costs nothing.</p>
+<ul>
+<li><strong>Fix the denominator before quoting an accuracy.</strong> The same method, scene</li>
+</ul>
+<p>   and date gave AUC from 0.387 to 0.897 under different masks, and a detector</p>
+<p>   that finds nothing scores 83.6 to 99.7 per cent overall accuracy on a target</p>
+<p>   occupying 0.3 to 3 per cent of the area.</p>
+<h3>7.5 For whoever funds the search for uses</h3>
+<p>Four of fifteen industries returned zero procurement in thirteen fiscal years,</p>
+<p>and the largest contracts we could not classify are demonstration programmes for</p>
+<p>finding uses. Public money is flowing towards use discovery precisely where</p>
+<p>demand is not established, which is defensible. What we would note is that the</p>
+<p>demonstrations are organised by theme, each looking at its own application.</p>
+<p><strong>Nobody has an incentive to compare across themes</strong>, and comparison across</p>
+<p>themes is where the six-cell result came from: the observation that the wall in</p>
+<p>one industry is the same cell as the wall in another, and that only one of the</p>
+<p>cells has a price.</p>
+<hr>
+<h2>8. Availability</h2>
+<p>All code, frozen predictions, verdict files and measurement records are</p>
+<p>publicly archived.</p>
+<ul>
+<li><strong>Implementation and measurement records</strong> — <code>eisei-bench</code>: five core modules,</li>
+</ul>
+<p>  fifteen industry implementations, and the replication, re-measurement and</p>
+<p>  benchmark scripts. 105 result files, including the frozen <code>*_prediction.json</code></p>
+<p>  and <code>*_verdict.json</code> for every benchmarked industry, and the ledger of</p>
+<p>  Section 4 as <code>docs/LEDGER.md</code>. MIT licensed.</p>
+<ul>
+<li><strong>This paper</strong> — sources for the English text and the complete Japanese</li>
+</ul>
+<p>  version, CC BY 4.0.</p>
+<ul>
+<li><strong>Public site</strong> — <a href="https://satellite.dx-fukuoka.com/">https://satellite.dx-fukuoka.com/</a> presents the fifteen</li>
+</ul>
+<p>  implementations with maps and figures.</p>
+<p>No satellite imagery is redistributed; it is fetched at run time from free,</p>
+<p>unauthenticated endpoints, and the acquisition procedures for every dataset,</p>
+<p>including the ones we do not bundle, are documented. Bundled third-party data</p>
+<p>is limited to OpenStreetMap extracts, which remain under ODbL 1.0 and are not</p>
+<p>covered by the repository&#x27;s MIT licence, and Japanese government statistics</p>
+<p>redistributable with attribution.</p>
+<p>Reference solutions come from the procurement portal&#x27;s successful-bid open</p>
+<p>data, which is public; the specific contracts used are listed with title,</p>
+<p>contracting body, supplier and value in the repository rather than paraphrased</p>
+<p>here, so that a reader can retrieve the same records.</p>
+<p><strong>One record was deliberately not tidied.</strong> The frozen result files contain</p>
+<p>absolute filesystem paths from the machine that produced them, including a</p>
+<p>directory name the project no longer uses. Rewriting them would make the</p>
+<p>records look cleaner and would destroy the property that makes them records.</p>
+<p>When the repository was renamed we re-ran one industry end to end and confirmed</p>
+<p>that all seven reported metrics reproduce exactly; the frozen file was then</p>
+<p>restored rather than updated.</p>
+<hr>
+<h2>References</h2>
+<p>Hansen, M. C., Potapov, P. V., Moore, R., Hancher, M., Turubanova, S. A.,</p>
+<p>Tyukavina, A., Thau, D., Stehman, S. V., Goetz, S. J., Loveland, T. R.,</p>
+<p>Kommareddy, A., Egorov, A., Chini, L., Justice, C. O., &amp; Townshend, J. R. G.</p>
+<p>(2013). High-resolution global maps of 21st-century forest cover change.</p>
+<p><em>Science</em>, 342(6160), 850–853. <a href="https://doi.org/10.1126/science.1244693">https://doi.org/10.1126/science.1244693</a></p>
+<p>Lyzenga, D. R. (1978). Passive remote sensing techniques for mapping water</p>
+<p>depth and bottom features. <em>Applied Optics</em>, 17(3), 379–383.</p>
+<p><a href="https://doi.org/10.1364/AO.17.000379">https://doi.org/10.1364/AO.17.000379</a></p>
+<p>NASA. <em>Terra&#x27;s orbit changes</em>. Terra mission.</p>
+<p><a href="https://terra.nasa.gov/about/terras-orbit-changes">https://terra.nasa.gov/about/terras-orbit-changes</a> — the last orbit-maintenance</p>
+<p>manoeuvre was performed on 27 February 2020, after which the mean local time of</p>
+<p>the equator crossing has drifted from 10:30.</p>
+<p>Ohkubo, B. (2026). *Who checks the answer key? Ground-truth defects in eight</p>
+<p>professional-practice benchmarks*. Preprint.</p>
+<p><a href="https://doi.org/10.5281/zenodo.21862231">https://doi.org/10.5281/zenodo.21862231</a></p>
+<p>Ohkubo, B. (2026). <em>eisei-bench: where free satellite data stops being enough</em>.</p>
+<p>Software. DOI assigned on release; see the repository&#x27;s <code>CITATION.cff</code>.</p>
+<p>Skakun, S., Wevers, J., Brockmann, C., Doxani, G., Aleksandrov, M., Batič, M.,</p>
+<p>Frantz, D., Gascon, F., Gómez-Chova, L., Hagolle, O., López-Puigdollers, D.,</p>
+<p>Louis, J., Lubej, M., Mateo-García, G., Osman, J., Peressutti, D., Pflug, B.,</p>
+<p>Puc, J., Richter, R., Roger, J.-C., Scaramuzza, P., Vermote, E., Vesel, N.,</p>
+<p>Zupanc, A., &amp; Žust, L. (2022). Cloud Mask Intercomparison eXercise (CMIX): An</p>
+<p>evaluation of cloud masking algorithms for Landsat 8 and Sentinel-2. *Remote</p>
+<p>Sensing of Environment*, 274, 112990. <a href="https://doi.org/10.1016/j.rse.2022.112990">https://doi.org/10.1016/j.rse.2022.112990</a></p>
+<h3>Data and primary sources</h3>
+<p>Procurement Portal (Japan). <em>Successful bid record open data</em>, FY2014–FY2026.</p>
+<p><a href="https://www.p-portal.go.jp/pps-web-biz/UAB02/OAB0201">https://www.p-portal.go.jp/pps-web-biz/UAB02/OAB0201</a></p>
+<p>Geospatial Information Authority of Japan. *Crustal deformation measurement</p>
+<p>results by satellite SAR*. <a href="https://sarprod.gsi.go.jp/">https://sarprod.gsi.go.jp/</a></p>
+<p>Ministry of the Environment, Biodiversity Center of Japan. *National survey on</p>
+<p>the natural environment: seagrass and seaweed bed survey (2018–2020)*.</p>
+<p><a href="https://www.biodic.go.jp/">https://www.biodic.go.jp/</a></p>
+<p>Microsoft Planetary Computer. <a href="https://planetarycomputer.microsoft.com/">https://planetarycomputer.microsoft.com/</a> —</p>
+<p>Sentinel-1 RTC, Landsat Collection 2 Level-2, Sentinel-5P, MODIS, Esri land</p>
+<p>cover. Earth Search (Element 84). <a href="https://earth-search.aws.element84.com/v1">https://earth-search.aws.element84.com/v1</a> —</p>
+<p>Sentinel-2 L2A, Copernicus DEM.</p>
+<p>Copernicus Sentinel data 2017–2026, processed by ESA. Contains modified</p>
+<p>Copernicus Sentinel data.</p>
