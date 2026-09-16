@@ -55,12 +55,13 @@ those two were, respectively, a sensor artefact we were about to publish as a
 physical signal, and a subsample we had no reason to take that happened to land
 on the predicted value.
 
-A second countermeasure was cheaper and caught more: **look at the objects**.
-Crop the top-ranked detections, lay them out, and look. Nine of the
-twenty-six were caught this way, including a case where five objects identified
-as aircraft on an airport apron were all buildings in the town to the east, and
-a case where control points supposedly on empty pavement were on car roofs.
-No aggregate statistic in the study caught anything these did not, and several
+A second countermeasure was cheaper: **look at the objects**. Crop the
+top-ranked detections, lay them out, and look. Three of the numbered
+twenty-six were caught this way, and three more in the re-measurement of wall 1
+before any result was recorded — including five objects identified as aircraft
+on an airport apron that were all buildings in the town to the east, and
+control points supposedly on empty pavement that were on car roofs. No
+aggregate statistic in the study caught anything these did not, and several
 aggregates were happily consistent with the defect.
 
 ### 7.4 For a reader deciding whether to use free Earth observation

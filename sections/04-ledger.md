@@ -105,22 +105,33 @@ small and every one of them is expensive.
 
 ### 4.3 What actually caught them
 
-Grouping the right-hand column of the ledger:
+Grouping the right-hand column of the ledger. Members are listed so the counts
+can be checked; every defect appears in exactly one group, and they sum to 26.
 
-- **Looking at the image or the objects** (03, 10, 14, 18, and the control-point
-  failure in the resolution rework): nine cases. Cropping the top-ranked
-  detections and laying them out side by side was the single most productive
-  check in the study, and it found errors that no aggregate statistic did.
-- **A counter-hypothesis or an alternative framing** (01, 04, 07, 19, 25, and
-  the whole of wall 7): seven cases.
-- **Physical or structural implausibility of the ordering** (08, 21, 24, and the
-  resolution rework, where larger objects appeared to disappear first): five
-  cases. An ordering that violates physics is a signal to inspect the procedure,
-  not the value.
-- **Reading the primary document in full** (05, 06, 17, 20): four cases. In
-  three of these we had read an extract and taken a clause out of context.
-- **Counting the denominator explicitly** (19, 26, and the "accuracy" result of
-  §3.4): three cases.
+| What caught it | Defects | n |
+|---|---|---|
+| Reading the primary document in full | 05, 06, 07, 17, 20, 23 | 6 |
+| Counting a denominator, a unit or a sample size explicitly | 02, 16, 18, 19, 25, 26 | 6 |
+| Reading our own code or raw output | 09, 11, 15, 22 | 4 |
+| An ordering or sign that violates physics or structure | 01, 08, 21, 24 | 4 |
+| Cropping the objects and looking at them | 03, 10, 14 | 3 |
+| An independent second measurement of the same thing | 04, 12 | 2 |
+| A corrupted artefact | 13 | 1 |
 
-Aggregate statistics caught almost nothing. Every defect was already producing a
-reasonable aggregate; that is what made it a defect and not a bug.
+Two things stand out. **Reading and counting dominate**: twelve of twenty-six
+were caught by reading a document we had only excerpted, or by writing down a
+denominator, a unit or a sample size that we had been carrying implicitly.
+Neither requires any satellite data.
+
+**Looking at the cropped objects is under-represented here and should not be.**
+It accounts for three of the twenty-six, but the re-measurement of wall 1
+produced three further cases that sit outside the numbered ledger because they
+were found before a result was recorded: a background annulus that sat entirely
+on top of the aircraft it was supposed to provide a background for, five
+objects identified as aircraft on an airport apron that were all buildings in
+the town to the east, and control points supposedly on empty pavement that were
+on car roofs. All three were found by cropping and looking, and none was
+visible in any aggregate.
+
+**Aggregate statistics caught almost nothing.** Every defect was already
+producing a reasonable aggregate; that is what made it a defect and not a bug.

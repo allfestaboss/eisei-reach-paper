@@ -146,15 +146,20 @@ a{color:#1f4a6b}</style>
 <p>Defects 04, 05, 08, 12, 17, 18, 19, 24, 26 and the inverse of 01 all produced numbers that looked like success: a high AUC, a clean ratio, a confirmed prediction, a dramatic before-and-after. The remaining sixteen produced numbers that looked wrong, and those we investigated immediately.</p>
 <p>This asymmetry is, we think, the central methodological hazard of self-directed measurement, and it is not addressed by any of the usual machinery. Testing catches crashes. Calibration catches disagreement with a known answer, where one exists. Pre-registration catches moving the goalposts. <strong>None of them catches a wrong measurement that lands where you expected it to land.</strong> The only mechanism that worked for us was making a confirmed prediction trigger an audit rather than a conclusion, and it worked twice out of twenty-six — not because the mechanism is weak, but because the population of dangerous cases is small and every one of them is expensive.</p>
 <h3>4.3 What actually caught them</h3>
-<p>Grouping the right-hand column of the ledger:</p>
-<ul>
-<li><strong>Looking at the image or the objects</strong> (03, 10, 14, 18, and the control-point failure in the resolution rework): nine cases. Cropping the top-ranked detections and laying them out side by side was the single most productive check in the study, and it found errors that no aggregate statistic did.</li>
-<li><strong>A counter-hypothesis or an alternative framing</strong> (01, 04, 07, 19, 25, and the whole of wall 7): seven cases.</li>
-<li><strong>Physical or structural implausibility of the ordering</strong> (08, 21, 24, and the resolution rework, where larger objects appeared to disappear first): five cases. An ordering that violates physics is a signal to inspect the procedure, not the value.</li>
-<li><strong>Reading the primary document in full</strong> (05, 06, 17, 20): four cases. In three of these we had read an extract and taken a clause out of context.</li>
-<li><strong>Counting the denominator explicitly</strong> (19, 26, and the &quot;accuracy&quot; result of §3.4): three cases.</li>
-</ul>
-<p>Aggregate statistics caught almost nothing. Every defect was already producing a reasonable aggregate; that is what made it a defect and not a bug.</p>
+<p>Grouping the right-hand column of the ledger. Members are listed so the counts can be checked; every defect appears in exactly one group, and they sum to 26.</p>
+<table>
+<tr><th>What caught it</th><th>Defects</th><th>n</th></tr>
+<tr><td>Reading the primary document in full</td><td>05, 06, 07, 17, 20, 23</td><td>6</td></tr>
+<tr><td>Counting a denominator, a unit or a sample size explicitly</td><td>02, 16, 18, 19, 25, 26</td><td>6</td></tr>
+<tr><td>Reading our own code or raw output</td><td>09, 11, 15, 22</td><td>4</td></tr>
+<tr><td>An ordering or sign that violates physics or structure</td><td>01, 08, 21, 24</td><td>4</td></tr>
+<tr><td>Cropping the objects and looking at them</td><td>03, 10, 14</td><td>3</td></tr>
+<tr><td>An independent second measurement of the same thing</td><td>04, 12</td><td>2</td></tr>
+<tr><td>A corrupted artefact</td><td>13</td><td>1</td></tr>
+</table>
+<p>Two things stand out. <strong>Reading and counting dominate</strong>: twelve of twenty-six were caught by reading a document we had only excerpted, or by writing down a denominator, a unit or a sample size that we had been carrying implicitly. Neither requires any satellite data.</p>
+<p><strong>Looking at the cropped objects is under-represented here and should not be.</strong> It accounts for three of the twenty-six, but the re-measurement of wall 1 produced three further cases that sit outside the numbered ledger because they were found before a result was recorded: a background annulus that sat entirely on top of the aircraft it was supposed to provide a background for, five objects identified as aircraft on an airport apron that were all buildings in the town to the east, and control points supposedly on empty pavement that were on car roofs. All three were found by cropping and looking, and none was visible in any aggregate.</p>
+<p><strong>Aggregate statistics caught almost nothing.</strong> Every defect was already producing a reasonable aggregate; that is what made it a defect and not a bug.</p>
 <hr>
 <h2>5. What we cannot claim</h2>
 <p>We state these before the discussion because several of them are load-bearing.</p>
@@ -185,7 +190,7 @@ a{color:#1f4a6b}</style>
 <p>Ten of twenty-six defects returned a flattering number. We want to be precise about why this is worse than it sounds.</p>
 <p>A bad result triggers investigation automatically, because it is unpleasant and because there is an obvious next action. A good result triggers writing up. The defect population is therefore filtered: errors that hurt get fixed, errors that flatter get published. No amount of care applied <em>after</em> seeing the result corrects for this, because the care is applied selectively by the same asymmetry.</p>
 <p>The only countermeasure that worked was structural: freeze a prediction, and treat a match as a trigger for audit rather than as a conclusion. It caught two cases out of twenty-six. That sounds like a low yield until one notices that those two were, respectively, a sensor artefact we were about to publish as a physical signal, and a subsample we had no reason to take that happened to land on the predicted value.</p>
-<p>A second countermeasure was cheaper and caught more: <strong>look at the objects</strong>. Crop the top-ranked detections, lay them out, and look. Nine of the twenty-six were caught this way, including a case where five objects identified as aircraft on an airport apron were all buildings in the town to the east, and a case where control points supposedly on empty pavement were on car roofs. No aggregate statistic in the study caught anything these did not, and several aggregates were happily consistent with the defect.</p>
+<p>A second countermeasure was cheaper: <strong>look at the objects</strong>. Crop the top-ranked detections, lay them out, and look. Three of the numbered twenty-six were caught this way, and three more in the re-measurement of wall 1 before any result was recorded — including five objects identified as aircraft on an airport apron that were all buildings in the town to the east, and control points supposedly on empty pavement that were on car roofs. No aggregate statistic in the study caught anything these did not, and several aggregates were happily consistent with the defect.</p>
 <h3>7.4 For a reader deciding whether to use free Earth observation</h3>
 <p>Three practical consequences, in order of how much time they save.</p>
 <ul>
