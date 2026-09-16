@@ -1,6 +1,6 @@
 # No error was raised
 
-[![DOI](https://zenodo.org/badge/DOI/PENDING.svg)](https://doi.org/PENDING)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22788700.svg)](https://doi.org/10.5281/zenodo.22788700)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](LICENSE)
 
 > **No error was raised: twenty-six broken measurements from a cross-domain
@@ -64,12 +64,14 @@ build.py                   両方を build/ に組み上げる
   title  = {No error was raised: twenty-six broken measurements from a
             cross-domain audit of free satellite data},
   year   = {2026},
-  doi    = {PENDING},
+  doi    = {10.5281/zenodo.22788700},
   note   = {Preprint}
 }
 ```
 
-引用には **Concept DOI**（常に最新版に解決する）を使う。正確な版は `CITATION.cff`。
+引用には **Concept DOI** `10.5281/zenodo.22788700`（常に最新版に解決する）を使う。
+v1.0.0 の Version DOI は `10.5281/zenodo.22788701`。正確な版は `CITATION.cff`。
+測定の実体である [`eisei-bench`](https://github.com/allfestaboss/eisei-bench) は `10.5281/zenodo.22788694`。
 
 ## ライセンス
 

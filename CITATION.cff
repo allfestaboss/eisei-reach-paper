@@ -47,6 +47,16 @@ version: "1.0.0"
 date-released: "2026-09-16"
 license: CC-BY-4.0
 
+# この版（v1.0.0）を指す DOI
+doi: "10.5281/zenodo.22788701"
+
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.22788700"
+    description: "Concept DOI — 常に最新版に解決する。引用にはこちら。"
+  - type: doi
+    value: "10.5281/zenodo.22788701"
+    description: "Version DOI — v1.0.0（初版）を指す。"
 url: "https://github.com/allfestaboss/eisei-reach-paper"
 repository-code: "https://github.com/allfestaboss/eisei-reach-paper"
 
@@ -68,7 +78,8 @@ references:
     authors:
       - family-names: "Ohkubo"
         given-names: "Boss"
-    notes: "本稿が記述する実装・測定記録・26件の台帳。DOI は公開時に付与。"
+    doi: "10.5281/zenodo.22788694"
+    notes: "本稿が記述する実装・測定記録・26件の台帳。"
   - type: article
     title: "Who checks the answer key? Ground-truth defects in eight professional-practice benchmarks"
     authors:

@@ -634,8 +634,8 @@ NO2 の結果は、最も歓迎されず、最も有用だろうと予想して�
 
 - **実装と測定記録** ── `eisei-bench`。core 5本、15業種の実装、追試・再測定・ベンチのスクリプト。
   結果ファイル105本（ベンチした業種すべての `*_prediction.json` と `*_verdict.json` を含む）、
-  第4節の台帳は `docs/LEDGER.md`。MIT ライセンス。
-- **本稿** ── 英語本文と日本語完全版のソース。CC BY 4.0。
+  第4節の台帳は `docs/LEDGER.md`。MIT ライセンス。10.5281/zenodo.22788694
+- **本稿** ── 英語本文と日本語完全版のソース。CC BY 4.0。10.5281/zenodo.22788700
 - **公開サイト** ── https://satellite.dx-fukuoka.com/ に15業種の地図と図がある。
 
 **衛星画像は再配布していない。** 実行時に無料・無認証のエンドポイントから取得され、
@@ -677,7 +677,7 @@ professional-practice benchmarks*. プレプリント.
 https://doi.org/10.5281/zenodo.21862231
 
 Ohkubo, B. (2026). *eisei-bench: 無料の衛星データはどこで詰まるか*. ソフトウェア.
-DOI は公開時に付与。リポジトリの `CITATION.cff` を参照。
+https://doi.org/10.5281/zenodo.22788694
 
 Skakun, S., Wevers, J., Brockmann, C., Doxani, G., Aleksandrov, M., Batič, M.,
 Frantz, D., Gascon, F., Gómez-Chova, L., Hagolle, O., López-Puigdollers, D.,

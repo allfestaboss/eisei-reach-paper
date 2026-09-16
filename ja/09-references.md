@@ -18,7 +18,7 @@ professional-practice benchmarks*. プレプリント.
 https://doi.org/10.5281/zenodo.21862231
 
 Ohkubo, B. (2026). *eisei-bench: 無料の衛星データはどこで詰まるか*. ソフトウェア.
-DOI は公開時に付与。リポジトリの `CITATION.cff` を参照。
+https://doi.org/10.5281/zenodo.22788694
 
 Skakun, S., Wevers, J., Brockmann, C., Doxani, G., Aleksandrov, M., Batič, M.,
 Frantz, D., Gascon, F., Gómez-Chova, L., Hagolle, O., López-Puigdollers, D.,

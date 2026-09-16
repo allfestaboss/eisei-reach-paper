@@ -20,7 +20,7 @@ professional-practice benchmarks*. Preprint.
 https://doi.org/10.5281/zenodo.21862231
 
 Ohkubo, B. (2026). *eisei-bench: where free satellite data stops being enough*.
-Software. DOI assigned on release; see the repository's `CITATION.cff`.
+Software. https://doi.org/10.5281/zenodo.22788694
 
 Skakun, S., Wevers, J., Brockmann, C., Doxani, G., Aleksandrov, M., Batič, M.,
 Frantz, D., Gascon, F., Gómez-Chova, L., Hagolle, O., López-Puigdollers, D.,

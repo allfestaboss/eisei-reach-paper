@@ -782,9 +782,9 @@ publicly archived.
   fifteen industry implementations, and the replication, re-measurement and
   benchmark scripts. 105 result files, including the frozen `*_prediction.json`
   and `*_verdict.json` for every benchmarked industry, and the ledger of
-  Section 4 as `docs/LEDGER.md`. MIT licensed.
+  Section 4 as `docs/LEDGER.md`. MIT licensed. 10.5281/zenodo.22788694
 - **This paper** — sources for the English text and the complete Japanese
-  version, CC BY 4.0.
+  version, CC BY 4.0. 10.5281/zenodo.22788700
 - **Public site** — https://satellite.dx-fukuoka.com/ presents the fifteen
   implementations with maps and figures.
 
@@ -832,7 +832,7 @@ professional-practice benchmarks*. Preprint.
 https://doi.org/10.5281/zenodo.21862231
 
 Ohkubo, B. (2026). *eisei-bench: where free satellite data stops being enough*.
-Software. DOI assigned on release; see the repository's `CITATION.cff`.
+Software. https://doi.org/10.5281/zenodo.22788694
 
 Skakun, S., Wevers, J., Brockmann, C., Doxani, G., Aleksandrov, M., Batič, M.,
 Frantz, D., Gascon, F., Gómez-Chova, L., Hagolle, O., López-Puigdollers, D.,
