@@ -30,9 +30,9 @@ would solve it changes pixel size and band count together, so what is being
 bought cannot be separated. Two walls are properties of the measuring
 instrument rather than of the method: a free analysis-ready SAR product that
 has already discarded phase, and a thermal sensor whose overpass time has been
-drifting since orbit maintenance ended, bending a night-time land-surface-
-temperature trend from +0.083 to +0.812 K/yr and contaminating every year we
-wished to compare. One is not a technical wall at all: a satellite quantity can
+drifting since orbit maintenance ended, bending a trend in night-time
+land-surface temperature from +0.083 to +0.812 K/yr and contaminating every
+year we wished to compare. One is not a technical wall at all: a satellite quantity can
 be measured correctly and still add nothing, because the target statistic is
 already explained by population at r = 0.85 to 0.95.
 

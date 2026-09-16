@@ -80,8 +80,14 @@ def body(src_dir: str) -> str:
 
 
 def to_html(md: str, title: str) -> str:
-    """依存を足さずに読める形にする。整形が目的で、厳密な変換ではない。"""
+    """依存を足さずに読める形にする。整形が目的で、厳密な変換ではない。
+
+    **原稿は手で折り返してある。**1行ずつ `<p>` にすると段落が
+    ばらばらの塊になり、行をまたいだ `**強調**` も変換されない
+    （画面で見るまで気づかなかった）。空行か構造行まで貯めてから流す。
+    """
     out, in_code, in_table, in_list = [], False, False, False
+    para: list[str] = []
 
     def inline(s: str) -> str:
         s = html.escape(s)
@@ -92,8 +98,34 @@ def to_html(md: str, title: str) -> str:
         s = re.sub(r"(?<![\"'>=])(https?://[^\s<)]+)", r'<a href="\1">\1</a>', s)
         return s
 
+    def join(buf: list[str]) -> str:
+        """和文は行末で連結し、欧文は空白1つでつなぐ。"""
+        s = ""
+        for i, x in enumerate(buf):
+            if i and not (s[-1:] and ord(s[-1]) > 0x2000 and ord(x[:1] or " ") > 0x2000):
+                s += " "
+            s += x
+        return s
+
+    def flush() -> None:
+        if para:
+            out.append(f"<p>{inline(join(para))}</p>")
+            para.clear()
+
+    def flush_li() -> None:
+        nonlocal in_list
+        if para:
+            out.append(f"<li>{inline(join(para))}</li>")
+            para.clear()
+
+    mode = "p"   # 貯めている塊が段落か箇条書き項目か
+
+    def flush_any() -> None:
+        flush_li() if mode == "li" else flush()
+
     for ln in md.split("\n"):
         if ln.startswith("```"):
+            flush_any()
             in_code = not in_code
             out.append("<pre>" if in_code else "</pre>")
             continue
@@ -101,6 +133,7 @@ def to_html(md: str, title: str) -> str:
             out.append(html.escape(ln))
             continue
         if ln.startswith("|"):
+            flush_any()
             if in_list:
                 out.append("</ul>"); in_list = False
             cells = [c.strip() for c in ln.strip("|").split("|")]
@@ -115,21 +148,42 @@ def to_html(md: str, title: str) -> str:
             continue
         if in_table:
             out.append("</table>"); in_table = False
-        is_li = bool(re.match(r"^[-*] |^\d+\. ", ln))
-        if in_list and not is_li and ln.strip():
-            out.append("</ul>"); in_list = False
+
+        if not ln.strip():                      # 空行が塊の終わり
+            flush_any()
+            if in_list:
+                out.append("</ul>"); in_list = False
+            mode = "p"
+            continue
         if m := re.match(r"^(#{1,4}) (.+)", ln):
+            flush_any()
+            if in_list:
+                out.append("</ul>"); in_list = False
+            mode = "p"
             out.append(f"<h{len(m.group(1))}>{inline(m.group(2))}</h{len(m.group(1))}>")
-        elif ln.startswith("> "):
+            continue
+        if ln.strip() == "---":
+            flush_any()
+            if in_list:
+                out.append("</ul>"); in_list = False
+            mode = "p"
+            out.append("<hr>")
+            continue
+        if ln.startswith("> "):
+            flush_any(); mode = "p"
             out.append(f"<blockquote>{inline(ln[2:])}</blockquote>")
-        elif is_li:
+            continue
+        if re.match(r"^[-*] |^\d+\. ", ln):    # 箇条書きの先頭行
+            flush_any()
             if not in_list:
                 out.append("<ul>"); in_list = True
-            out.append(f"<li>{inline(re.sub(r'^([-*]|\d+\.) ', '', ln))}</li>")
-        elif ln.strip() == "---":
-            out.append("<hr>")
-        elif ln.strip():
-            out.append(f"<p>{inline(ln)}</p>")
+            mode = "li"
+            para.append(re.sub(r"^([-*]|\d+\.) ", "", ln).strip())
+            continue
+        # 続きの行。**折り返しただけ**なので今の塊に足す
+        para.append(ln.strip())
+
+    flush_any()
     if in_table:
         out.append("</table>")
     if in_list:
